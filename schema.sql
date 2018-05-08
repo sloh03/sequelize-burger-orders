@@ -1,3 +1,2 @@
--- Create the database burgers_db and specified it for use.
-CREATE DATABASE burgersDB;
-USE burgersDB
+-- Create the database
+CREATE DATABASE seq_burgers_db;

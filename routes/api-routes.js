@@ -14,7 +14,7 @@ var db = require("../models");
 module.exports = function(app) {
 
     // GET route for getting all of the burgers
-    app.get("/api/burgers", function(req, res) {
+    app.get("/", function(req, res) {
       // findAll returns all entries for a table when used with no options
       db.Burger.findAll({}).then(function(dbBurger) {
         // We have access to the burgers as an argument inside of the callback function
@@ -45,10 +45,16 @@ module.exports = function(app) {
             devoured: req.body.devoured
         }, {
             where: {
-                id: req.body.id
+                id: req.params.id
             }
         }).then(function(dbBurger) {
-        res.json(dbBurger);
+            if (dbBurger.changedRows === 0) {
+                // If no rows were changed, then the ID must not exist, so 404
+                return res.status(404).end();
+            } else {
+                res.json(dbBurger);
+                res.status(200).end();
+            }
         });
     });
   };
